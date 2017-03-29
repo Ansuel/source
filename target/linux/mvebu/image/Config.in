@@ -1,0 +1,38 @@
+config KERNEL_NET_DSA
+	bool
+
+config KERNEL_NET_DSA_HWMON
+	bool
+
+config KERNEL_NET_DSA_MV88E6XXX
+	bool
+
+config KERNEL_NET_DSA_MV88E6XXX_GLOBAL2
+	bool
+
+config KERNEL_NET_DSA_TAG_EDSA
+	bool
+
+config KERNEL_NET_SWITCHDEV
+	bool
+
+choice
+	prompt "Switch driver to use"
+	default MVEBU_SWITCH_DRIVER_SWCONFIG
+
+config MVEBU_SWITCH_DRIVER_DSA
+	bool "Distributed Switch Architecture (DSA)"
+	select KERNEL_NET_DSA
+	select KERNEL_NET_DSA_HWMON
+	select KERNEL_NET_DSA_MV88E6XXX
+	select KERNEL_NET_DSA_MV88E6XXX_GLOBAL2
+	select KERNEL_NET_DSA_TAG_EDSA
+	select KERNEL_NET_SWITCHDEV
+
+config MVEBU_SWITCH_DRIVER_SWCONFIG
+	bool "Swconfig"
+	select PACKAGE_kmod-swconfig
+	select PACKAGE_kmod-switch-mvsw61xx
+	select PACKAGE_swconfig
+
+endchoice

@@ -638,3 +638,15 @@ board_config_flush() {
 	json_dump -i > /tmp/.board.json
 	mv /tmp/.board.json ${CFG}
 }
+
+board_config_network_type() {
+	local type
+	
+	if [ -e /sys/class/net/lan1 ];
+	then type="dsa";
+	else type="swconfig";
+	fi
+	
+	echo "$type"
+	
+}

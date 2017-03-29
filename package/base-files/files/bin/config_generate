@@ -3,6 +3,7 @@
 CFG=/etc/board.json
 
 . /usr/share/libubox/jshn.sh
+. /lib/functions/uci-defaults.sh
 
 [ -s $CFG ] || /bin/board_detect || exit 1
 [ -s /etc/config/network -a -s /etc/config/system ] && exit 0
@@ -409,6 +410,11 @@ generate_gpioswitch() {
 
 json_init
 json_load "$(cat ${CFG})"
+
+if [ $(board_config_network_type) == dsa && -s /etc/config/network &&
+	$(grep switch /etc/config/network) ]; then
+	rm /etc/config/network
+fi
 
 if [ ! -s /etc/config/network ]; then
 	touch /etc/config/network
